@@ -10,18 +10,16 @@
   "schemes": [
     "https"
   ],
-  "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+ "paths": {
+  "/topmovies": {
+    "post": { ... }
+  },
+  "/topmovies/{id}": {
+    "get": { ... },
+    "put": { ... },
+    "delete": { ... }
+  }
+}
       },
       "post": {
         "description": "",
