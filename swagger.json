@@ -10,123 +10,80 @@
   "schemes": [
     "https"
   ],
- "paths": {
-  "/topmovies": {
-    "post": { ... }
-  },
-  "/topmovies/{id}": {
-    "get": { ... },
-    "put": { ... },
-    "delete": { ... }
-  }
-}
-      },
+  "paths": {
+    "/topmovies": {
+      "get": {
+        "description": "Retrieves all movies.",
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      }
+    },
+    "/topmovies/{id}": {
+      "get": {
+        "description": "Get a single movie by ID.",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/directors": {
       "post": {
-        "description": "",
+        "description": "Create a new director record.",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "nationality": {
-                  "example": "any"
-                },
-                "birthYear": {
-                  "example": "any"
-                },
-                "knownFor": {
-                  "example": "any"
-                }
+                "firstName": { "type": "string", "example": "Speedy" },
+                "lastName": { "type": "string", "example": "Fox" },
+                "nationality": { "type": "string", "example": "Uganda" },
+                "birthYear": { "type": "string", "example": "2006" },
+                "knownFor": { "type": "string", "example": "Movies" }
               }
             }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "201": { "description": "Created" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
-    "/{id}": {
+    "/directors/{id}": {
       "get": {
-        "description": "",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          }
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" }
         }
       },
       "put": {
-        "description": "",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          }
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" }
         }
       },
       "delete": {
-        "description": "",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          }
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" }
         }
       }
     }
