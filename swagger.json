@@ -1,0 +1,160 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Contacts API",
+    "description": "API for managing contact information. Supports creating, reading, updating, and deleting contacts stored in MongoDB. Each contact stores firstName, lastName, email, favoriteColor, and birthday.",
+    "version": "1.0.0"
+  },
+  "host": "YOUR-RENDER-URL.onrender.com",
+  "schemes": ["https"],
+  "tags": [
+    {
+      "name": "Contacts",
+      "description": "Endpoints for managing contact records"
+    }
+  ],
+  "paths": {
+    "/contacts": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Get all contacts",
+        "description": "Retrieves a list of all contacts stored in the MongoDB contacts collection.",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Array of contact objects",
+            "schema": { "type": "array", "items": { "$ref": "#/definitions/Contact" } }
+          },
+          "500": { "description": "Internal server error" }
+        }
+      },
+      "post": {
+        "tags": ["Contacts"],
+        "summary": "Create a new contact",
+        "description": "Adds a new contact to the MongoDB contacts collection. All 5 fields are required: firstName, lastName, email, favoriteColor, and birthday. Returns the new contact's ID.",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "Contact object — all 5 fields required",
+            "schema": { "$ref": "#/definitions/ContactInput" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Contact created successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": { "type": "string", "example": "Contact created successfully" },
+                "id": { "type": "string", "example": "665f1a2b3c4d5e6f7a8b9c0d" }
+              }
+            }
+          },
+          "400": { "description": "Validation failed — missing or invalid fields" },
+          "500": { "description": "Internal server error" }
+        }
+      }
+    },
+    "/contacts/{id}": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Get a single contact by ID",
+        "description": "Retrieves a single contact from MongoDB using the contact's unique ObjectId.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB ObjectId of the contact",
+            "example": "665f1a2b3c4d5e6f7a8b9c0d"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Contact found", "schema": { "$ref": "#/definitions/Contact" } },
+          "404": { "description": "Contact not found" },
+          "400": { "description": "Invalid ID format" }
+        }
+      },
+      "put": {
+        "tags": ["Contacts"],
+        "summary": "Update a contact by ID",
+        "description": "Updates an existing contact in MongoDB. Only the fields provided in the request body will be updated. Email is validated if provided.",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB ObjectId of the contact to update",
+            "example": "665f1a2b3c4d5e6f7a8b9c0d"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "Fields to update on the contact",
+            "schema": { "$ref": "#/definitions/ContactInput" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Contact updated successfully" },
+          "400": { "description": "Validation failed or invalid ID" },
+          "404": { "description": "Contact not found" }
+        }
+      },
+      "delete": {
+        "tags": ["Contacts"],
+        "summary": "Delete a contact by ID",
+        "description": "Permanently removes a contact from the MongoDB contacts collection using the contact's unique ObjectId.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB ObjectId of the contact to delete",
+            "example": "665f1a2b3c4d5e6f7a8b9c0d"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Contact deleted successfully" },
+          "404": { "description": "Contact not found" },
+          "400": { "description": "Invalid ID format" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Contact": {
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string", "example": "665f1a2b3c4d5e6f7a8b9c0d" },
+        "firstName": { "type": "string", "example": "James" },
+        "lastName": { "type": "string", "example": "Carter" },
+        "email": { "type": "string", "example": "james.carter@example.com" },
+        "favoriteColor": { "type": "string", "example": "Navy Blue" },
+        "birthday": { "type": "string", "example": "1990-06-15" }
+      }
+    },
+    "ContactInput": {
+      "type": "object",
+      "required": ["firstName", "lastName", "email", "favoriteColor", "birthday"],
+      "properties": {
+        "firstName": { "type": "string", "example": "James" },
+        "lastName": { "type": "string", "example": "Carter" },
+        "email": { "type": "string", "example": "james.carter@example.com" },
+        "favoriteColor": { "type": "string", "example": "Navy Blue" },
+        "birthday": { "type": "string", "example": "1990-06-15" }
+      }
+    }
+  }
+}

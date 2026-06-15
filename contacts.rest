@@ -1,0 +1,63 @@
+# =============================================
+# Contacts API - REST Client Test File
+# =============================================
+
+@BASE_URL = http://localhost:3000
+# @BASE_URL = https://YOUR-RENDER-URL.onrender.com
+
+### Root
+GET {{BASE_URL}}/
+
+###
+
+### Swagger Docs
+GET {{BASE_URL}}/api-docs
+
+###
+
+### GET all contacts
+GET {{BASE_URL}}/contacts
+
+###
+
+### GET single contact by ID
+GET {{BASE_URL}}/contacts/REPLACE_WITH_REAL_ID
+
+###
+
+### POST - Create a new contact (all 5 fields required)
+POST {{BASE_URL}}/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Alice",
+  "lastName": "Johnson",
+  "email": "alice.johnson@example.com",
+  "favoriteColor": "Purple",
+  "birthday": "1995-03-22"
+}
+
+###
+
+### POST - Validation test — missing fields (should return 400)
+POST {{BASE_URL}}/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Incomplete"
+}
+
+###
+
+### PUT - Update a contact's favoriteColor
+PUT {{BASE_URL}}/contacts/REPLACE_WITH_REAL_ID
+Content-Type: application/json
+
+{
+  "favoriteColor": "Teal"
+}
+
+###
+
+### DELETE - Delete a contact
+DELETE {{BASE_URL}}/contacts/REPLACE_WITH_REAL_ID
