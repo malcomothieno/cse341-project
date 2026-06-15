@@ -1,34 +1,82 @@
-const { getDatabase } = require('./db');
 const { ObjectId } = require('mongodb');
+const mongodb = require('../db/connect'); // Adjust this path if your DB connection file is located elsewhere
 
-const COLLECTION = 'movies';
-
+/**
+ * Retrieves all movie documents from the topmovies collection
+ */
 async function getAllMovies() {
-  const db = getDatabase();
-  return db.collection(COLLECTION).find({}).toArray();
+  try {
+    const db = mongodb.getDb().db('movieDB');
+    return await db.collection('topmovies').find().toArray();
+  } catch (err) {
+    console.error('Error in getAllMovies model:', err);
+    throw err;
+  }
 }
 
+/**
+ * Retrieves a single movie document by its ID from the topmovies collection
+ */
 async function getMovieById(id) {
-  const db = getDatabase();
-  return db.collection(COLLECTION).findOne({ _id: new ObjectId(id) });
+  try {
+    const db = mongodb.getDb().db('movieDB');
+    return await db.collection('topmovies').findOne({ _id: new ObjectId(id) });
+  } catch (err) {
+    console.error('Error in getMovieById model:', err);
+    throw err;
+  }
 }
 
-async function createMovie(movie) {
-  const db = getDatabase();
-  return db.collection(COLLECTION).insertOne(movie);
+/**
+ * Inserts a new movie document into the topmovies collection
+ */
+async function createMovie(movieData) {
+  try {
+    const db = mongodb.getDb().db('movieDB');
+    return await db.collection('topmovies').insertOne(movieData);
+  } catch (err) {
+    console.error('Error in createMovie model:', err);
+    throw err;
+  }
 }
 
-async function updateMovie(id, updatedFields) {
-  const db = getDatabase();
-  return db.collection(COLLECTION).updateOne(
-    { _id: new ObjectId(id) },
-    { $set: updatedFields }
-  );
+/**
+ * Updates an existing movie document by ID in the topmovies collection
+ */
+async function updateMovie(id, updateData) {
+  try {
+    const db = mongodb.getDb().db('movieDB');
+    // Strip out _id if it accidentally gets passed in the request body to avoid MongoDB immutable errors
+    const dataToUpdate = { ...updateData };
+    delete dataToUpdate._id;
+
+    return await db.collection('topmovies').updateOne(
+      { _id: new ObjectId(id) },
+      { $set: dataToUpdate }
+    );
+  } catch (err) {
+    console.error('Error in updateMovie model:', err);
+    throw err;
+  }
 }
 
+/**
+ * Deletes a movie document by ID from the topmovies collection
+ */
 async function deleteMovie(id) {
-  const db = getDatabase();
-  return db.collection(COLLECTION).deleteOne({ _id: new ObjectId(id) });
+  try {
+    const db = mongodb.getDb().db('movieDB');
+    return await db.collection('topmovies').deleteOne({ _id: new ObjectId(id) });
+  } catch (err) {
+    console.error('Error in deleteMovie model:', err);
+    throw err;
+  }
 }
 
-module.exports = { getAllMovies, getMovieById, createMovie, updateMovie, deleteMovie };
+module.exports = {
+  getAllMovies,
+  getMovieById,
+  createMovie,
+  updateMovie,
+  deleteMovie,
+};
