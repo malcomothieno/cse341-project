@@ -5,7 +5,7 @@
     "description": "API for managing contact information. Supports creating, reading, updating, and deleting contacts stored in MongoDB. Each contact stores firstName, lastName, email, favoriteColor, and birthday.",
     "version": "1.0.0"
   },
-  "host": "YOUR-RENDER-URL.onrender.com",
+  "host": "cse341-project-827z.onrender.com",
   "schemes": ["https"],
   "tags": [
     {
